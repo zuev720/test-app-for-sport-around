@@ -1,26 +1,38 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+  "ts-node": {
+    "files": true
   },
-  "include": [
-    "src"
-  ]
+  "compilerOptions": {
+    "jsx": "react",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2019",
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "paths": {
+      "@clients/*": ["./core/server/clients/*"],
+      "@config/*": ["./config/*"],
+      "@core/*": ["./core/*"],
+      "@docker/*": ["./docker/*"],
+      "@interfaces/*": ["./core/interfaces/*"],
+      "@models/*": ["./core/server/models/*"],
+      "@public/*": ["./public/*"],
+      "@helpers/*": ["./core/server/helpers/*"],
+      "@services/*": ["./core/server/services/*"],
+      "@scripts/*": ["./scripts/*"]
+    }
+  },
+  "exclude": ["node_modules", "public", "temp", "webpack", "build"]
 }
