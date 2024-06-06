@@ -1,13 +1,19 @@
 import React from 'react';
 
+// import {
+//   Typography,
+//   Grid,
+//   // CircularProgress,
+//   // createTheme,
+//   // styled,
+//   Box,
+// } from '@mui/material';
+
 import {
-  Typography,
-  Grid,
-  CircularProgress,
-  // createTheme,
-  styled,
-  Box,
-} from '@mui/material';
+  // CircularProgressbar,
+  buildStyles,
+  CircularProgressbarWithChildren,
+} from 'react-circular-progressbar';
 
 // const theme = createTheme({
 //   palette: {
@@ -21,12 +27,12 @@ import {
 //   },
 // });
 
-const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  '& .MuiCircularProgress-circle': {
-    stroke: theme.palette.primary.main,
-  },
-}));
+// const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
+//   color: theme.palette.primary.main,
+//   '& .MuiCircularProgress-circle': {
+//     stroke: theme.palette.primary.main,
+//   },
+// }));
 
 interface IProps {
   days: number;
@@ -41,74 +47,62 @@ const SportEventsService: React.FC<IProps> = ({
   minutes,
   seconds,
 }) => {
+  const circulars = [
+    {
+      color: '#0062B5',
+      maxValue: 7,
+      timeValue: days,
+      period: 'дней',
+    },
+    {
+      color: '#D62F0D',
+      maxValue: 24,
+      timeValue: hours,
+      period: 'часа',
+    },
+    {
+      color: '#FDAE47',
+      maxValue: 60,
+      timeValue: minutes,
+      period: 'минут',
+    },
+    {
+      color: '#51ACD8',
+      maxValue: 60,
+      timeValue: seconds,
+      period: 'секунд',
+    },
+  ];
+
   return (
-    <Box style={{ width: '100%', height: 459, background: '#1E3465' }}>
-      <Grid>
-        <Grid>
-          <Typography>12:15</Typography>
-          <Typography>17 июля воскресенье</Typography>
-        </Grid>
-        <Grid>
-          <Typography>24.07.2021</Typography>
-          <Typography>Академия FIG в Ташкенте</Typography>
-        </Grid>
-        <Grid>
-          <Box>
-            <CustomCircularProgress
-              variant="determinate"
-              value={days}
-              size={31}
-            />
-            <Typography>{days}</Typography>
-            <Typography>дней</Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box>
-            <CircularProgress
-              variant="determinate"
-              value={hours}
-              size={24}
-              color="error"
-            />
-            <Typography>{hours}</Typography>
-            <Typography>часов</Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box>
-            <CircularProgress
-              variant="determinate"
-              value={minutes}
-              size={60}
-              color="warning"
-            />
-            <Typography>{minutes}</Typography>
-            <Typography>минут</Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Box>
-            <CircularProgress
-              variant="determinate"
-              value={seconds}
-              size={60}
-              color="secondary"
-            />
-            <Typography>{seconds}</Typography>
-            <Typography variant="caption" color="#ffffff">
-              секунд
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid>
-          <Typography>20.09.2021</Typography>
-          <Typography>
-            Звёзды современной мировой гимнастики на одном помосте
-          </Typography>
-        </Grid>
-      </Grid>
-    </Box>
+    <div className="main-event-container">
+      <header className="main-event-header">
+        <p className="current-date">24.07.2021</p>
+        <p className="main-event-title">Академия FIG в Ташкенте</p>
+      </header>
+      <div className="circular-container">
+        <button className="button">
+          Идет сейчас
+          <span className="button-icon">&#9200;</span>
+        </button>
+        {circulars.map((elem, index) => (
+          <div key={index} className="circular-wrapper">
+            <CircularProgressbarWithChildren
+              value={elem.timeValue}
+              maxValue={elem.maxValue}
+              styles={buildStyles({
+                pathColor: elem.color,
+              })}
+            >
+              <div className="circular-time-container">
+                <span className="circular-time">{elem.timeValue}</span>
+                <span className="circular-time-value">{elem.period}</span>
+              </div>
+            </CircularProgressbarWithChildren>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
