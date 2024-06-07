@@ -14,16 +14,20 @@ body, html, #root {
 }
 
 .App {
+  text-align: center;
+  height: 100%;
+  background: #12203E;
+  }
+  
+.SportEventsService {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  text-align: center;
-  height: 100%;
-  background: #12203E;
 }
 
-.time-wrapper {
+.Header {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -41,7 +45,7 @@ body, html, #root {
   text-align: center;
 }
 
-.main-event-container {
+.CurrentEvent {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

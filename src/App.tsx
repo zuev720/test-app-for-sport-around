@@ -10,26 +10,9 @@ import SportEventsService from './SportEventsService/SportEventsService';
 // </Grid>
 
 const App: React.FC = () => {
-  const props = {
-    days: 5,
-    hours: 2,
-    minutes: 24,
-    seconds: 46,
-  };
-
   return (
     <div className="App">
-      <div className="time-wrapper">
-        <div className="time">12:15</div>
-        <div className="date">24 июля • суббота</div>
-      </div>
-      <SportEventsService {...props} />
-      <div className="nextEvent">
-        <div className="next-date">20.09.2021</div>
-        <div className="next-event">
-          Звезды современной мировой гимнастики на одном помосте
-        </div>
-      </div>
+      <SportEventsService />
     </div>
   );
 };
