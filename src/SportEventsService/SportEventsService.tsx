@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import dayjs from 'dayjs';
 
-import { getEvents } from 'src/rest/getEvents';
+import { getEvents } from '../rest/getEvents';
 
 import { CurrentDateContext } from './current-date.context';
 
