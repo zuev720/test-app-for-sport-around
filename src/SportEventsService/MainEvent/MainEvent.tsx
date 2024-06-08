@@ -1,49 +1,22 @@
 import React from 'react';
 
-import dayjs from 'dayjs';
+import './main-event.css';
 
 import {
   buildStyles,
   CircularProgressbarWithChildren,
 } from 'react-circular-progressbar';
 
-import getDateEvent from '../helpers';
+import getDateEvent, { getDateValues } from '../helpers';
 
 import { useCurrentDate } from '../current-date.context';
 
-interface IProps {
-  title: string;
-  is_main: boolean;
-  dt_start: string;
-  dt_end: string;
-  dt_create: string;
-}
+import IEvent from '../interfaces';
 
-const CurrentEvent: React.FC<IProps> = ({ title, dt_start, dt_end }) => {
+const MainEvent: React.FC<IEvent> = ({ title, dt_start, dt_end }) => {
   const { now } = useCurrentDate();
 
-  const start: dayjs.Dayjs = dayjs(dt_start);
-
-  const differenceInDays: number = start.diff(now, 'days');
-  const differenceInHours: number = start.diff(now, 'hours');
-  const differenceInMinutes: number = start.diff(now, 'minutes');
-  const differenceInSeconds: number = start.diff(now, 'seconds');
-
-  const isNow = differenceInSeconds < 0;
-
-  const days =
-    differenceInDays % 7 === 0 || differenceInDays === 7
-      ? 7
-      : differenceInDays % 7;
-
-  const hours: number =
-    differenceInHours % 24 === 0 ? 23 : differenceInHours % 24;
-
-  const minutes: number =
-    differenceInMinutes % 60 === 0 ? 59 : differenceInMinutes % 60;
-
-  const seconds: number =
-    differenceInSeconds % 60 === 0 ? 60 : differenceInSeconds % 60;
+  const { isNow, days, hours, minutes, seconds } = getDateValues(dt_start, now);
 
   const circulars = [
     {
@@ -73,10 +46,10 @@ const CurrentEvent: React.FC<IProps> = ({ title, dt_start, dt_end }) => {
   ];
 
   return (
-    <div className="CurrentEvent">
+    <div className="MainEvent">
       <header className="main-event-header">
-        <p className="current-date">{getDateEvent(dt_start, dt_end)}</p>
-        <p className="main-event-title">{title}</p>
+        <span className="current-date">{getDateEvent(dt_start, dt_end)}</span>
+        <span className="main-event-title">{title}</span>
       </header>
       <div className="circular-container">
         {isNow && (
@@ -108,4 +81,4 @@ const CurrentEvent: React.FC<IProps> = ({ title, dt_start, dt_end }) => {
   );
 };
 
-export default React.memo(CurrentEvent);
+export default React.memo(MainEvent);

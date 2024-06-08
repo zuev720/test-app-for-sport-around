@@ -1,13 +1,8 @@
 import React from 'react';
 
 import './App.css';
-import SportEventsService from './SportEventsService/SportEventsService';
-// import { Grid, Typography } from '@mui/material';
 
-// <Grid style={{ width: '100%' }}>
-// <Typography>12:15</Typography>
-// <Typography>17 июля воскресенье</Typography>
-// </Grid>
+import SportEventsService from './SportEventsService';
 
 const App: React.FC = () => {
   return (

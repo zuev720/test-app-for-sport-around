@@ -1,14 +1,22 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import useFetch from 'src/fetch/useFetch';
-import CurrentEvent from './CurrentEvent/CurrentEvent';
-import { CurrentDateContext } from './current-date.context';
 import dayjs from 'dayjs';
-import Header from './Header/Header';
-import Footer from './Footer/Footer';
+
+import { getEvents } from 'src/rest/getEvents';
+
+import { CurrentDateContext } from './current-date.context';
+
+import CurrentDate from './CurrentDate';
+import Header from './Header';
+import NextEvent from './NextEvent';
+import MainEvent from './MainEvent';
+
+import IEvent from './interfaces';
 
 const SportEventsService: React.FC = () => {
   const [now, setNow] = useState(dayjs());
+
+  const { data, isLoading, error } = getEvents();
 
   const getCurrentDate = useCallback(
     () => setInterval(() => setNow(dayjs()), 1000),
@@ -17,46 +25,39 @@ const SportEventsService: React.FC = () => {
 
   useEffect(() => {
     getCurrentDate();
+
+    return () => clearInterval(getCurrentDate());
   }, [getCurrentDate]);
 
-  const { data, isLoading, error } = useFetch(
-    'https://beta.sosportom.ru/graphql/',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify({
-        query:
-          'query videostandEvents ($videostand_id: ID!) { videostandEvents(videostand_id: $videostand_id) { current_and_upcoming { title, is_main, dt_start, dt_end, dt_create }, finished { title, is_main, dt_start, dt_end, dt_create } } }',
-        variables: { videostand_id: '6' },
-      }),
-    }
+  const events = data?.data.videostandEvents.current_and_upcoming;
+
+  const isEvent = useMemo(
+    () => !(isLoading || error || !data || events?.length === 0),
+    [isLoading, error]
   );
 
-  if (isLoading || !data) {
-    return <p>Загрузка...</p>;
-  }
+  const mainEvent = events?.find(
+    (event: IEvent) => event.is_main === true || events[0]
+  );
 
-  if (error) {
-    return <p>Ошибка: {error}</p>;
-  } else {
-    return (
-      <CurrentDateContext.Provider
-        value={{
-          now,
-        }}
-      >
+  const nextEvent = events?.find((event: IEvent) => event !== mainEvent);
+
+  return (
+    <CurrentDateContext.Provider
+      value={{
+        now,
+      }}
+    >
+      {isEvent && (
         <div className="SportEventsService">
           <Header />
-          <CurrentEvent
-            {...data?.data.videostandEvents.current_and_upcoming[0]}
-          />
-          <Footer {...data?.data.videostandEvents.current_and_upcoming[1]} />
+          {mainEvent && <MainEvent {...mainEvent} />}
+          {nextEvent && <NextEvent {...nextEvent} />}
         </div>
-      </CurrentDateContext.Provider>
-    );
-  }
+      )}
+      {!isEvent && <CurrentDate />}
+    </CurrentDateContext.Provider>
+  );
 };
 
 export default React.memo(SportEventsService);

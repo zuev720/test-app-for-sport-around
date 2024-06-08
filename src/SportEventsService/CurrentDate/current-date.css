@@ -1,0 +1,30 @@
+.CurrentDate {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    color: #FFFFFF;
+  }
+  
+  .current-wrapper-time {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    background: #1F3768;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .current-wrapper-date {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    background: #172A52;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }

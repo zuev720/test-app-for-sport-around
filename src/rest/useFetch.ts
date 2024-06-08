@@ -1,38 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
-interface VideoStandEvent {
-  title: string;
-  is_main: boolean;
-  dt_start: string;
-  dt_end: string;
-  dt_create: string;
-}
-
-interface VideoStandEvents {
-  current_and_upcoming: VideoStandEvent[];
-  finished: VideoStandEvent[];
-}
-
-interface VideoStandData {
-  videostandEvents: VideoStandEvents;
-}
-
-interface RootObject {
-  data: VideoStandData;
-}
-
-interface FetchData<T> {
-  data: RootObject | null;
-  isLoading: boolean;
-  error: string | null;
-}
-
-// interface IBody {
-//   body: {
-//     query: string;
-//     variables: { videostand_id: string };
-//   };
-// }
+import FetchData from './interfaces';
+import { RootObject } from 'src/SportEventsService/interfaces';
 
 const useFetch = <T>(url: string, options?: RequestInit): FetchData<T> => {
   const [data, setData] = useState<RootObject | null>(null);
